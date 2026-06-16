@@ -1,0 +1,176 @@
+PLUGIN_DIR="$HOME/.config/sketchybar/plugins"
+
+sketchybar --bar height=36 \
+                 position=top \
+                 sticky=on \
+                 padding_left=10 \
+                 padding_right=10 \
+                 color=0xFF1e1228 \
+                 border_width=1 \
+                 border_color=0xFF3d2255
+
+sketchybar --default icon.font="Hack Nerd Font:Bold:13.0" \
+                      label.font="Hack Nerd Font:Regular:13.0" \
+                      icon.color=0xFFffffff \
+                      label.color=0xFFffffff \
+                      padding_left=3 \
+                      padding_right=3 \
+                      label.padding_left=4 \
+                      label.padding_right=8 \
+                      icon.padding_left=8 \
+                      icon.padding_right=4
+
+sketchybar --add item space_1 left \
+           --set space_1 background.drawing=on background.color=0xFF2d1f4a \
+                         background.corner_radius=10 background.height=24 \
+                         icon.color=0xFFc678dd label.drawing=off update_freq=3 \
+                         script="$PLUGIN_DIR/space.sh 1" \
+                         click_script="yabai -m space --focus 1"
+
+sketchybar --add item space_2 left \
+           --set space_2 background.drawing=on background.color=0xFF2d1f4a \
+                         background.corner_radius=10 background.height=24 \
+                         icon.color=0xFFc678dd label.drawing=off update_freq=3 \
+                         script="$PLUGIN_DIR/space.sh 2" \
+                         click_script="yabai -m space --focus 2"
+
+sketchybar --add item space_3 left \
+           --set space_3 background.drawing=on background.color=0xFF2d1f4a \
+                         background.corner_radius=10 background.height=24 \
+                         icon.color=0xFFc678dd label.drawing=off update_freq=3 \
+                         script="$PLUGIN_DIR/space.sh 3" \
+                         click_script="yabai -m space --focus 3"
+
+sketchybar --add item front_app left \
+           --set front_app background.drawing=on background.color=0xFF2d3b8c \
+                           background.corner_radius=12 background.height=24 \
+                           icon.color=0xFF7aa2f7 label.color=0xFF7aa2f7 \
+                           script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched
+
+sketchybar --add item weather left \
+           --set weather update_freq=1800 \
+                         icon="€" icon.font="SF Pro Display:Regular:16.0" \
+                         background.drawing=on background.color=0xFF1a4a4a \
+                         background.corner_radius=12 background.height=24 \
+                         icon.color=0xFF56d6c8 label.color=0xFF56d6c8 \
+                         script="$PLUGIN_DIR/weather.sh"
+
+sketchybar --add item media left \
+           --set media update_freq=3 width=380 label.max_chars=39 \
+                       background.drawing=on background.color=0xFF3d1f5e \
+                       background.corner_radius=12 background.height=28 \
+                       background.border_width=1 \
+                       background.border_color=0xFFc678dd \
+                       label.color=0xFFc678dd \
+                       label.font="Futura:Bold:15.0" \
+                       label.padding_left=8 \
+                       icon.drawing=off \
+                       script="$PLUGIN_DIR/media.sh"
+
+sketchybar --add item media_spacer left \
+           --set media_spacer width=10 background.drawing=off \
+                              label.drawing=off icon.drawing=off
+
+sketchybar --add item media.prev left \
+           --set media.prev icon="⏮" icon.font="SF Pro Display:Bold:16.0" \
+                             icon.color=0xFFc678dd label.drawing=off \
+                             background.drawing=off \
+                             padding_left=10 padding_right=6 \
+                             icon.padding_left=0 icon.padding_right=0 \
+                             click_script="nowplaying-cli previous; sleep 0.3; $PLUGIN_DIR/media.sh"
+
+sketchybar --add item media.play left \
+           --set media.play icon="▶" icon.font="SF Pro Display:Bold:18.0" \
+                             icon.color=0xFF98c379 label.drawing=off \
+                             background.drawing=off \
+                             padding_left=6 padding_right=6 \
+                             icon.padding_left=0 icon.padding_right=0 \
+                             click_script="nowplaying-cli togglePlayPause; sleep 0.3; $PLUGIN_DIR/media.sh"
+
+sketchybar --add item media.next left \
+           --set media.next icon="⏭" icon.font="SF Pro Display:Bold:16.0" \
+                             icon.color=0xFFc678dd label.drawing=off \
+                             background.drawing=off \
+                             padding_left=6 padding_right=10 \
+                             icon.padding_left=0 icon.padding_right=0 \
+                             click_script="nowplaying-cli next; sleep 0.3; $PLUGIN_DIR/media.sh"
+
+sketchybar --add bracket buttons_group media.prev media.play media.next \
+           --set buttons_group \
+                 background.drawing=on \
+                 background.color=0xFF2d1040 \
+                 background.corner_radius=14 \
+                 background.height=30 \
+                 background.border_width=1 \
+                 background.border_color=0xFFc678dd
+
+# RIGHT — rightmost first
+sketchybar --add item clock right \
+           --set clock update_freq=10 \
+                       icon="󰃰" icon.color=0xFFff79c6 \
+                       background.drawing=on background.color=0xFF4a1a3a \
+                       background.corner_radius=12 background.height=24 \
+                       label.color=0xFFff79c6 \
+                       script="$PLUGIN_DIR/clock.sh"
+
+sketchybar --add item battery right \
+           --set battery update_freq=120 \
+                         background.drawing=on background.color=0xFF1a3a1a \
+                         background.corner_radius=12 background.height=24 \
+                         icon.color=0xFF98c379 label.color=0xFF98c379 \
+                         script="$PLUGIN_DIR/battery.sh" \
+           --subscribe battery system_woke power_source_change
+
+sketchybar --add item volume right \
+           --set volume background.drawing=on background.color=0xFF3a3a1a \
+                        background.corner_radius=12 background.height=24 \
+                        icon.drawing=on icon.font="Hack Nerd Font:Regular:13.0" \
+                        icon.color=0xFFe5c07b label.color=0xFFe5c07b \
+                        label.padding_left=4 label.padding_right=8 \
+                        icon.padding_left=8 icon.padding_right=4 \
+                        script="$PLUGIN_DIR/volume.sh" \
+                        click_script="$PLUGIN_DIR/volume_click.sh" \
+                        popup.align=right popup.background.color=0xFF1e1228 \
+                        popup.background.border_color=0xFF3d2255 \
+                        popup.background.border_width=1 \
+                        popup.background.corner_radius=10 \
+           --subscribe volume volume_change scroll_action
+
+sketchybar --add item btc right \
+           --set btc update_freq=30 \
+                     icon="₿" icon.font="SF Pro Display:Bold:13.0" \
+                     icon.color=0xFFf7931a label.color=0xFFf7931a \
+                     background.drawing=off \
+                     label.padding_left=4 label.padding_right=6 \
+                     icon.padding_left=6 icon.padding_right=2 \
+                     script="$PLUGIN_DIR/btc.sh"
+
+sketchybar --add item eth right \
+           --set eth update_freq=30 \
+                     icon="⟠" icon.font="SF Pro Display:Black:16.0" \
+                     icon.color=0xFF8a9fff label.color=0xFF8a9fff \
+                     background.drawing=off \
+                     label.padding_left=4 label.padding_right=6 \
+                     icon.padding_left=6 icon.padding_right=2 \
+                     script="$PLUGIN_DIR/eth.sh"
+
+sketchybar --add item ton right \
+           --set ton update_freq=30 \
+                     icon="💎" icon.font="SF Pro Display:Bold:13.0" \
+                     icon.color=0xFF4db8ff label.color=0xFF4db8ff \
+                     background.drawing=off \
+                     label.padding_left=4 label.padding_right=6 \
+                     icon.padding_left=6 icon.padding_right=2 \
+                     script="$PLUGIN_DIR/ton.sh"
+
+sketchybar --add bracket crypto_group btc eth ton \
+           --set crypto_group \
+                 background.drawing=on \
+                 background.color=0xFF0f1a3a \
+                 background.corner_radius=12 \
+                 background.height=24 \
+                 background.border_width=1 \
+                 background.border_color=0xFF3a4a8a
+
+sketchybar --update
